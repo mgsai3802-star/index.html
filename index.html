@@ -7,54 +7,57 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background-color: #0d0d0d; color: #e5e5e5; font-family: 'Inter', sans-serif; }
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .card-grad { background: linear-gradient(145deg, #1a1a1a, #121212); border-left: 4px solid #ef4444; }
+        body { background-color: #0d0d0d; color: #e5e5e5; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .card-grad { background: linear-gradient(145deg, #1a1a1a, #121212); border-left: 4px solid #ef4444; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .animate-spin-fast { animation: spin 0.6s linear infinite; }
     </style>
 </head>
-<body class="p-4 pb-24">
-    <header class="flex justify-between items-center mb-6 px-2">
-        <div class="flex items-center gap-3">
-            <img src="https://ui-avatars.com/api/?name=DR&background=000&color=fff&bold=true" id="appLogo" class="w-12 h-12 rounded-xl object-cover shadow-lg border border-white/10">
+<body class="p-4 pb-28">
+    <header class="flex justify-between items-center mb-8 px-2">
+        <div class="flex items-center gap-4">
+            <div class="relative w-14 h-14">
+                <img src="https://mgsai3802-star.github.io/index.html/logo.png" onerror="this.src='https://ui-avatars.com/api/?name=DR&background=dc2626&color=fff&bold=true'" class="w-full h-full rounded-2xl object-cover border border-white/10 shadow-2xl">
+                <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 border-[#0d0d0d] rounded-full"></div>
+            </div>
             <div>
-                <h1 class="text-xl font-black italic tracking-tighter text-white uppercase leading-none">REN FREE KEY</h1>
-                <p class="text-[9px] uppercase tracking-widest text-blue-400 font-bold mt-1">Premium Digital Access</p>
+                <h1 class="text-xl font-black italic tracking-tighter text-white leading-none">REN FREE <span class="text-red-600">KEY</span></h1>
+                <p class="text-[9px] uppercase tracking-[0.2em] text-blue-400 font-bold mt-1.5 opacity-80">Digital Subscription Hub</p>
             </div>
         </div>
-        <button id="refreshBtn" class="w-11 h-11 rounded-xl glass flex items-center justify-center text-red-500 active:scale-90 transition-all">
+        <button id="refreshBtn" class="w-12 h-12 rounded-2xl glass flex items-center justify-center text-red-500 active:scale-90 transition-all shadow-lg">
             <i class="fa-solid fa-arrows-rotate text-lg" id="refreshIcon"></i>
         </button>
     </header>
 
-    <div id="loading" class="hidden flex flex-col items-center justify-center py-24">
-        <div class="w-10 h-10 border-4 border-red-600/20 border-t-red-600 rounded-full animate-spin-fast mb-4"></div>
-        <p class="text-[10px] font-bold text-gray-600 tracking-[0.3em]">FETCHING NODES...</p>
+    <div id="loading" class="hidden flex flex-col items-center justify-center py-20">
+        <div class="w-10 h-10 border-4 border-red-600/10 border-t-red-600 rounded-full animate-spin-fast mb-4"></div>
+        <p class="text-[10px] font-black text-gray-500 tracking-[0.3em] animate-pulse">FILTERING LIVE KEYS...</p>
     </div>
 
-    <div id="container" class="space-y-3"></div>
+    <div id="container" class="grid grid-cols-1 gap-4"></div>
 
-    <nav class="fixed bottom-4 left-4 right-4 h-16 glass rounded-2xl flex justify-around items-center border border-white/5 z-50 shadow-2xl">
+    <nav class="fixed bottom-6 left-6 right-6 h-16 glass rounded-3xl flex justify-around items-center border border-white/10 z-50 shadow-2xl">
         <button onclick="filterType('vless')" class="flex flex-col items-center gap-1 group">
             <i class="fa-solid fa-bolt text-gray-500 group-active:text-red-500 text-sm"></i>
-            <span class="text-[9px] font-black text-gray-500">VLESS</span>
+            <span class="text-[9px] font-black text-gray-500 group-active:text-red-500">VLESS</span>
         </button>
         <button onclick="filterType('vmess')" class="flex flex-col items-center gap-1 group">
             <i class="fa-solid fa-shield-halved text-gray-500 group-active:text-red-500 text-sm"></i>
-            <span class="text-[9px] font-black text-gray-500">VMESS</span>
+            <span class="text-[9px] font-black text-gray-500 group-active:text-red-500">VMESS</span>
         </button>
         <button onclick="filterType('ss')" class="flex flex-col items-center gap-1 group">
             <i class="fa-solid fa-shuttle-space text-gray-500 group-active:text-red-500 text-sm"></i>
-            <span class="text-[9px] font-black text-gray-500">OUTLINE</span>
+            <span class="text-[9px] font-black text-gray-500 group-active:text-red-500">OUTLINE</span>
         </button>
     </nav>
 
     <script>
-        const _sources = [
-            "aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3Byb3h5Zmx5L2ZyZWV2cG4vbWFpbi92bGVzcy50eHQ=",
-            "aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3Byb3h5Zmx5L2ZyZWV2cG4vbWFpbi92bWVzcy50eHQ=",
-            "aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3Byb3h5Zmx5L2ZyZWV2cG4vbWFpbi9zcy50eHQ="
+        const sources = [
+            "https://raw.githubusercontent.com/proxyfly/freevpn/main/vless.txt",
+            "https://raw.githubusercontent.com/proxyfly/freevpn/main/vmess.txt",
+            "https://raw.githubusercontent.com/proxyfly/freevpn/main/ss.txt"
         ];
 
         let _store = [];
@@ -64,52 +67,72 @@
             const icon = document.getElementById('refreshIcon');
             const load = document.getElementById('loading');
             const cont = document.getElementById('container');
+
             btn.disabled = true;
             icon.classList.add('animate-spin-fast');
             load.classList.remove('hidden');
             cont.innerHTML = '';
             _store = [];
-            const proxy = "https://api.allorigins.win/raw?url=";
 
-            try {
-                for (let s of _sources) {
-                    const resp = await fetch(proxy + encodeURIComponent(atob(s)));
+            // More stable Proxy
+            const proxy = "https://api.codetabs.com/v1/proxy?quest=";
+
+            for (let url of sources) {
+                try {
+                    const resp = await fetch(proxy + encodeURIComponent(url));
                     const text = await resp.text();
+                    
                     text.split('\n').forEach(line => {
-                        const cleanLine = line.trim();
-                        if (cleanLine.length < 20 || !cleanLine.includes('://')) return;
-                        let type = cleanLine.split('://')[0].toUpperCase();
-                        let name = cleanLine.includes('#') ? decodeURIComponent(cleanLine.split('#')[1]).replace(/404: NOT FOUND/gi, '').trim() : `Premium ${type} Node`;
-                        if (!name) name = `Premium ${type} Server`;
-                        _store.push({ type, config: cleanLine, name });
+                        const clean = line.trim();
+                        if (clean.length < 25 || !clean.includes('://')) return;
+
+                        let type = clean.split('://')[0].toUpperCase();
+                        let name = clean.includes('#') ? decodeURIComponent(clean.split('#')[1]) : `Premium ${type} Node`;
+                        
+                        // Clean 404 text
+                        name = name.replace(/404: NOT FOUND/gi, '').trim() || `Global ${type} Server`;
+
+                        _store.push({ type, config: clean, name });
                     });
-                }
-                render(_store);
-            } catch (e) { alert("Network unstable."); }
-            finally {
-                btn.disabled = false;
-                icon.classList.remove('animate-spin-fast');
-                load.classList.add('hidden');
+                } catch (e) { console.error("Source error"); }
             }
+
+            render(_store);
+            btn.disabled = false;
+            icon.classList.remove('animate-spin-fast');
+            load.classList.add('hidden');
         }
 
         function render(data) {
-            document.getElementById('container').innerHTML = data.map(item => `
-                <div class="card-grad p-4 rounded-xl flex justify-between items-center active:scale-95 transition-all" onclick="copy('${item.config}')">
-                    <div class="overflow-hidden mr-2">
-                        <div class="text-[9px] font-black text-red-500 mb-0.5">${item.type}</div>
-                        <div class="text-sm font-bold truncate text-gray-100">${item.name}</div>
+            const cont = document.getElementById('container');
+            if(data.length === 0) {
+                cont.innerHTML = '<div class="text-center py-10 text-gray-600 font-bold text-xs uppercase tracking-widest">No keys active. Refresh again.</div>';
+                return;
+            }
+            cont.innerHTML = data.map(item => `
+                <div class="card-grad p-5 rounded-2xl flex justify-between items-center active:scale-[0.96] transition-all" onclick="copy('${item.config}')">
+                    <div class="overflow-hidden pr-4">
+                        <div class="text-[10px] font-black text-red-600 mb-1 tracking-tighter">${item.type}</div>
+                        <div class="text-[13px] font-bold truncate text-gray-200">${item.name}</div>
                     </div>
-                    <i class="fa-solid fa-copy text-gray-600 text-xs"></i>
+                    <div class="w-10 h-10 rounded-xl glass flex items-center justify-center flex-shrink-0 active:bg-red-600">
+                        <i class="fa-solid fa-copy text-xs text-gray-500 group-active:text-white"></i>
+                    </div>
                 </div>
             `).join('');
         }
 
         function copy(str) {
-            navigator.clipboard.writeText(str);
+            const el = document.createElement('textarea');
+            el.value = str;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            
             const t = document.createElement('div');
-            t.className = "fixed top-12 left-1/2 -translate-x-1/2 bg-red-600 text-white px-6 py-2 rounded-full text-[10px] font-bold z-[100]";
-            t.innerText = "CONFIG COPIED!";
+            t.className = "fixed top-10 left-1/2 -translate-x-1/2 bg-red-600 text-white px-8 py-3 rounded-2xl text-[11px] font-black z-[100] shadow-2xl";
+            t.innerText = "COPIED TO CLIPBOARD!";
             document.body.appendChild(t);
             setTimeout(() => t.remove(), 1500);
         }
