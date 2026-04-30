@@ -17,10 +17,10 @@
 <body class="p-4 pb-24">
     <header class="flex justify-between items-center mb-6 px-2">
         <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-2xl bg-red-600 flex items-center justify-center shadow-lg shadow-red-900/40 text-white font-black text-xl italic">R</div>
+            <img src="https://ui-avatars.com/api/?name=DR&background=000&color=fff&bold=true" id="appLogo" class="w-12 h-12 rounded-xl object-cover shadow-lg border border-white/10">
             <div>
                 <h1 class="text-xl font-black italic tracking-tighter text-white uppercase leading-none">REN FREE KEY</h1>
-                <p class="text-[9px] uppercase tracking-widest text-gray-500 font-bold mt-1">Premium Digital Access</p>
+                <p class="text-[9px] uppercase tracking-widest text-blue-400 font-bold mt-1">Premium Digital Access</p>
             </div>
         </div>
         <button id="refreshBtn" class="w-11 h-11 rounded-xl glass flex items-center justify-center text-red-500 active:scale-90 transition-all">
@@ -35,7 +35,7 @@
 
     <div id="container" class="space-y-3"></div>
 
-    <nav class="fixed bottom-4 left-4 right-4 h-16 glass rounded-2xl flex justify-around items-center border border-white/5 z-50">
+    <nav class="fixed bottom-4 left-4 right-4 h-16 glass rounded-2xl flex justify-around items-center border border-white/5 z-50 shadow-2xl">
         <button onclick="filterType('vless')" class="flex flex-col items-center gap-1 group">
             <i class="fa-solid fa-bolt text-gray-500 group-active:text-red-500 text-sm"></i>
             <span class="text-[9px] font-black text-gray-500">VLESS</span>
@@ -64,43 +64,29 @@
             const icon = document.getElementById('refreshIcon');
             const load = document.getElementById('loading');
             const cont = document.getElementById('container');
-
             btn.disabled = true;
             icon.classList.add('animate-spin-fast');
             load.classList.remove('hidden');
             cont.innerHTML = '';
             _store = [];
-
             const proxy = "https://api.allorigins.win/raw?url=";
 
             try {
                 for (let s of _sources) {
                     const resp = await fetch(proxy + encodeURIComponent(atob(s)));
                     const text = await resp.text();
-                    
                     text.split('\n').forEach(line => {
                         const cleanLine = line.trim();
                         if (cleanLine.length < 20 || !cleanLine.includes('://')) return;
-
                         let type = cleanLine.split('://')[0].toUpperCase();
-                        let name = "";
-
-                        // 404: NOT FOUND စာသားပါနေတာကို ရှင်းထုတ်တဲ့အပိုင်း
-                        if (cleanLine.includes('#')) {
-                            name = decodeURIComponent(cleanLine.split('#')[1]);
-                            name = name.replace(/404: NOT FOUND/gi, '').trim();
-                        }
-                        
-                        // အကယ်၍ နာမည်မရှိရင် default ပေးမယ်
+                        let name = cleanLine.includes('#') ? decodeURIComponent(cleanLine.split('#')[1]).replace(/404: NOT FOUND/gi, '').trim() : `Premium ${type} Node`;
                         if (!name) name = `Premium ${type} Server`;
-
                         _store.push({ type, config: cleanLine, name });
                     });
                 }
                 render(_store);
-            } catch (e) {
-                alert("Network unstable. Please refresh.");
-            } finally {
+            } catch (e) { alert("Network unstable."); }
+            finally {
                 btn.disabled = false;
                 icon.classList.remove('animate-spin-fast');
                 load.classList.add('hidden');
@@ -114,9 +100,7 @@
                         <div class="text-[9px] font-black text-red-500 mb-0.5">${item.type}</div>
                         <div class="text-sm font-bold truncate text-gray-100">${item.name}</div>
                     </div>
-                    <div class="w-8 h-8 rounded-lg glass flex items-center justify-center">
-                        <i class="fa-solid fa-copy text-[10px] text-gray-500"></i>
-                    </div>
+                    <i class="fa-solid fa-copy text-gray-600 text-xs"></i>
                 </div>
             `).join('');
         }
@@ -124,15 +108,13 @@
         function copy(str) {
             navigator.clipboard.writeText(str);
             const t = document.createElement('div');
-            t.className = "fixed top-12 left-1/2 -translate-x-1/2 bg-red-600 text-white px-6 py-2 rounded-full text-[10px] font-bold z-[100] shadow-xl";
+            t.className = "fixed top-12 left-1/2 -translate-x-1/2 bg-red-600 text-white px-6 py-2 rounded-full text-[10px] font-bold z-[100]";
             t.innerText = "CONFIG COPIED!";
             document.body.appendChild(t);
             setTimeout(() => t.remove(), 1500);
         }
 
-        function filterType(t) {
-            render(_store.filter(i => i.type.toLowerCase().includes(t.toLowerCase())));
-        }
+        function filterType(t) { render(_store.filter(i => i.type.toLowerCase().includes(t.toLowerCase()))); }
 
         window.onload = fetchData;
         document.getElementById('refreshBtn').onclick = fetchData;
