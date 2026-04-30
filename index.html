@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ren Free Key</title>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #050505; color: #ffffff; user-select: none; -webkit-tap-highlight-color: transparent; }
+        .red-accent { color: #ff1a1a; }
+        .bg-red-accent { background-color: #ff1a1a; }
+        .glass-card { background: rgba(20, 20, 20, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }
+    </style>
+</head>
+<body class="pb-24">
+    <div class="p-5 bg-zinc-950 border-b border-red-700/50 flex justify-between items-center sticky top-0 z-50">
+        <div>
+            <h1 class="text-2xl font-black red-accent tracking-tighter italic">REN FREE KEY</h1>
+            <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Secure VPN Aggregator</p>
+        </div>
+        <button onclick="safeFetch()" id="refreshBtn" class="p-3 bg-red-600 rounded-2xl shadow-lg shadow-red-900/20 active:scale-90 transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+        </button>
+    </div>
+
+    <div id="main-content" class="p-4">
+        <input type="text" id="search" placeholder="Quick Filter (SG, US, JP)..." 
+               class="w-full bg-zinc-900 p-4 rounded-2xl border border-zinc-800 outline-none focus:border-red-600 transition-all text-sm mb-6">
+        
+        <div id="loading" class="hidden flex flex-col items-center py-20">
+            <div class="w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full animate-spin mb-4"></div>
+            <p class="text-xs text-zinc-500 font-bold uppercase">Encrypting Connection...</p>
+        </div>
+
+        <div id="keyList" class="grid grid-cols-1 gap-4"></div>
+    </div>
+
+    <div class="fixed bottom-6 left-4 right-4 bg-zinc-900/90 backdrop-blur-xl border border-zinc-800 p-2 rounded-3xl flex justify-around shadow-2xl">
+        <button onclick="tab('vless')" id="vbtn" class="flex-1 py-3 rounded-2xl text-[10px] font-black uppercase transition-all">VLess</button>
+        <button onclick="tab('vmess')" id="mbtn" class="flex-1 py-3 rounded-2xl text-[10px] font-black uppercase transition-all">VMess</button>
+        <button onclick="tab('ss')" id="sbtn" class="flex-1 py-3 rounded-2xl text-[10px] font-black uppercase transition-all">Outline</button>
+    </div>
+
+    <script>
+        // Obfuscated Sources (Base64)
+        const _0x1a2b = [
+            "aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2ZyZWVmcS9mcmVlL21hc3Rlci92MnJheQ==",
+            "aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3NzcnN1Yi9zc3IvbWFzdGVyL3YycmF5"
+        ];
+
+        let _store = [];
+        let _active = 'vless';
+
+        async function safeFetch() {
+            const btn = document.getElementById('refreshBtn');
+            const load = document.getElementById('loading');
+            btn.disabled = true;
+            load.classList.remove('hidden');
+            _store = [];
+
+            try {
+                for (let s of _0x1a2b) {
+                    const r = await fetch(atob(s));
+                    const t = await r.text();
+                    const d = atob(t.trim()).split('\n');
+                    
+                    d.forEach(l => {
+                        if (l && !/[\u4e00-\u9fa5]/.test(l)) {
+                            let type = l.startsWith('vless://') ? 'vless' : l.startsWith('vmess://') ? 'vmess' : l.startsWith('ss://') ? 'ss' : '';
+                            if (type) {
+                                let name = decodeURIComponent(l.split('#')[1] || 'Secure Node');
+                                _store.push({ type, l, name });
+                            }
+                        }
+                    });
+                }
+                render();
+            } catch (e) { alert("Security Block: Connection failed."); }
+            
+            btn.disabled = false;
+            load.classList.add('hidden');
+        }
+
+        function render() {
+            const q = document.getElementById('search').value.toLowerCase();
+            const container = document.getElementById('keyList');
+            container.innerHTML = '';
+
+            _store.filter(i => i.type === _active && i.name.toLowerCase().includes(q))
+                  .forEach(i => {
+                const div = document.createElement('div');
+                div.className = "glass-card p-5 rounded-3xl animate-fade-in";
+                div.innerHTML = `
+                    <div class="flex justify-between items-start mb-4">
+                        <p class="text-sm font-bold truncate pr-4">${i.name}</p>
+                        <span class="text-[9px] bg-zinc-800 px-2 py-1 rounded text-red-500 font-black tracking-widest">${i.type.toUpperCase()}</span>
+                    </div>
+                    <div class="flex gap-3">
+                        <button onclick="copy('${i.l}')" class="flex-1 bg-zinc-800/50 py-3 rounded-xl text-[10px] font-bold active:bg-zinc-700">COPY</button>
+                        <button onclick="go('${i.l}','${i.type}')" class="flex-1 bg-red-600 py-3 rounded-xl text-[10px] font-black shadow-lg shadow-red-900/40">CONNECT</button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+            updateNav();
+        }
+
+        function updateNav() {
+            ['vbtn','mbtn','sbtn'].forEach(id => document.getElementById(id).className = "flex-1 py-3 rounded-2xl text-[10px] font-black uppercase text-zinc-600");
+            const activeId = _active === 'vless' ? 'vbtn' : _active === 'vmess' ? 'mbtn' : 'sbtn';
+            document.getElementById(activeId).className = "flex-1 py-3 rounded-2xl text-[10px] font-black uppercase bg-red-600 text-white shadow-lg shadow-red-900/30";
+        }
+
+        function copy(t) { navigator.clipboard.writeText(t); alert("Encrypted Key Copied!"); }
+        function go(l, t) { window.location.href = (t==='ss') ? l : `v2rayng://install-config?url=${encodeURIComponent(l)}`; }
+        function tab(t) { _active = t; render(); }
+
+        document.getElementById('search').addEventListener('input', render);
+        window.onload = safeFetch;
+    </script>
+</body>
+</html>
