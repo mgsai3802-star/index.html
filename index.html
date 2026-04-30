@@ -7,50 +7,58 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background-color: #0a0a0a; color: #e5e5e5; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
-        .glass { background: rgba(25, 25, 25, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .card-grad { background: linear-gradient(145deg, #1a1a1a, #121212); border-left: 4px solid #dc2626; }
+        body { background-color: #0a0a0a; color: #e5e5e5; font-family: 'Inter', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .card-grad { background: linear-gradient(145deg, #161616, #0d0d0d); border-left: 3px solid #ef4444; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .animate-spin-fast { animation: spin 0.8s linear infinite; }
+        .animate-spin-fast { animation: spin 0.6s linear infinite; }
     </style>
 </head>
-<body class="p-4 pb-20">
-    <header class="flex justify-between items-center mb-6">
-        <div>
-            <h1 class="text-2xl font-black italic tracking-tighter text-red-600">REN FREE KEY</h1>
-            <p class="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold">Secure VPN Aggregator</p>
+<body class="p-4 pb-24">
+    <header class="flex justify-between items-center mb-6 px-2">
+        <div class="flex items-center gap-3">
+            <img src="https://mgsai3802-star.github.io/index.html/logo.png" onerror="this.src='https://ui-avatars.com/api/?name=R&background=dc2626&color=fff'" class="w-12 h-12 rounded-xl border border-white/10 shadow-lg shadow-red-600/20">
+            <div>
+                <h1 class="text-xl font-black italic tracking-tighter text-white">REN FREE <span class="text-red-600">KEY</span></h1>
+                <p class="text-[9px] uppercase tracking-widest text-gray-500 font-bold">Premium Digital Access</p>
+            </div>
         </div>
-        <button id="refreshBtn" class="w-12 h-12 rounded-2xl glass flex items-center justify-center text-red-500 active:scale-90 transition-transform shadow-lg shadow-red-900/20">
-            <i class="fa-solid fa-rotate-right text-xl" id="refreshIcon"></i>
+        <button id="refreshBtn" class="w-11 h-11 rounded-xl glass flex items-center justify-center text-red-500 active:scale-90 transition-all">
+            <i class="fa-solid fa-arrows-rotate text-lg" id="refreshIcon"></i>
         </button>
     </header>
 
-    <div class="mb-6 sticky top-4 z-10">
-        <input type="text" id="search" placeholder="Quick Filter (SG, US, JP)..." 
-               class="w-full p-4 rounded-2xl glass border-none focus:ring-2 focus:ring-red-600 outline-none placeholder:text-gray-600 font-medium">
+    <div class="mb-5 sticky top-2 z-10">
+        <div class="relative">
+            <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-600 text-sm"></i>
+            <input type="text" id="search" placeholder="Search Location (SG, US, HK)..." 
+                   class="w-full pl-11 pr-4 py-4 rounded-2xl glass border-none focus:ring-2 focus:ring-red-600 outline-none text-sm font-medium">
+        </div>
     </div>
 
-    <div id="loading" class="hidden flex flex-col items-center justify-center py-20">
-        <div class="w-10 h-10 border-4 border-red-600/20 border-t-red-600 rounded-full animate-spin-fast mb-4"></div>
-        <p class="text-sm font-bold text-gray-500 animate-pulse">BYPASSING SECURITY...</p>
+    <div id="loading" class="hidden flex flex-col items-center justify-center py-24">
+        <div class="w-12 h-12 border-4 border-red-600/10 border-t-red-600 rounded-full animate-spin-fast mb-4"></div>
+        <p class="text-xs font-black text-gray-600 tracking-[0.3em]">FETCHING SERVER NODES...</p>
     </div>
 
     <div id="container" class="space-y-3"></div>
 
-    <nav class="fixed bottom-0 left-0 right-0 glass border-t border-white/5 px-6 py-3 flex justify-around items-center z-50">
-        <button onclick="filterType('vless')" class="flex flex-col items-center gap-1 group">
-            <span class="text-[10px] font-black text-gray-500 group-active:text-red-500">VLESS</span>
+    <nav class="fixed bottom-4 left-4 right-4 h-16 glass rounded-2xl flex justify-around items-center z-50 border border-white/10">
+        <button onclick="filterType('vless')" class="flex flex-col items-center group">
+            <i class="fa-solid fa-bolt text-gray-500 group-active:text-red-500 text-lg"></i>
+            <span class="text-[8px] font-black text-gray-500 uppercase mt-1">VLESS</span>
         </button>
-        <button onclick="filterType('vmess')" class="flex flex-col items-center gap-1 group">
-            <span class="text-[10px] font-black text-gray-500 group-active:text-red-500">VMESS</span>
+        <button onclick="filterType('vmess')" class="flex flex-col items-center group">
+            <i class="fa-solid fa-shield-halved text-gray-500 group-active:text-red-500 text-lg"></i>
+            <span class="text-[8px] font-black text-gray-500 uppercase mt-1">VMESS</span>
         </button>
-        <button onclick="filterType('ss')" class="flex flex-col items-center gap-1 group">
-            <span class="text-[10px] font-black text-gray-500 group-active:text-red-500">OUTLINE</span>
+        <button onclick="filterType('ss')" class="flex flex-col items-center group">
+            <i class="fa-solid fa-shuttle-space text-gray-500 group-active:text-red-500 text-lg"></i>
+            <span class="text-[8px] font-black text-gray-500 uppercase mt-1">OUTLINE</span>
         </button>
     </nav>
 
     <script>
-        // Sources encoded to avoid direct crawling (Base64)
         const _0x1a2b = [
             "aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3Byb3h5Zmx5L2ZyZWV2cG4vbWFpbi92bGVzcy50eHQ=",
             "aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3Byb3h5Zmx5L2ZyZWV2cG4vbWFpbi92bWVzcy50eHQ=",
@@ -71,7 +79,6 @@
             cont.innerHTML = '';
             _store = [];
 
-            // Web-friendly Proxy to bypass GitHub CORS block
             const proxy = "https://api.allorigins.win/raw?url=";
 
             try {
@@ -83,15 +90,27 @@
                         const lines = text.split('\n').filter(l => l.trim().length > 10);
                         
                         lines.forEach(line => {
-                            let name = "Global-Node";
-                            if (line.includes('#')) name = decodeURIComponent(line.split('#')[1]);
-                            _store.push({ type: line.split('://')[0], config: line, name: name });
+                            let rawType = line.split('://')[0];
+                            let name = "Premium Server";
+                            
+                            // နာမည်ကို ပိုမိုတိကျစွာ ဆွဲထုတ်ခြင်း
+                            if (line.includes('#')) {
+                                name = decodeURIComponent(line.split('#')[1]).trim();
+                            } else {
+                                name = rawType.toUpperCase() + " Node " + (Math.floor(Math.random() * 900) + 100);
+                            }
+
+                            _store.push({ 
+                                type: rawType.toUpperCase(), 
+                                config: line.trim(), 
+                                name: name 
+                            });
                         });
-                    } catch (e) { console.error("Source skip"); }
+                    } catch (e) { console.log("Skip"); }
                 }
                 render(_store);
             } catch (err) {
-                alert("Connection Error. Please check your internet.");
+                alert("Server busy. Try again.");
             } finally {
                 btn.disabled = false;
                 icon.classList.remove('animate-spin-fast');
@@ -101,14 +120,18 @@
 
         function render(data) {
             const cont = document.getElementById('container');
+            if(data.length === 0) {
+                cont.innerHTML = '<div class="text-center py-10 text-gray-600 text-xs font-bold">NO NODES FOUND</div>';
+                return;
+            }
             cont.innerHTML = data.map((item, idx) => `
-                <div class="card-grad p-4 rounded-xl flex justify-between items-center group active:scale-[0.98] transition-all" onclick="copy('${item.config}')">
+                <div class="card-grad p-4 rounded-2xl flex justify-between items-center group active:scale-[0.97] transition-all" onclick="copy('${item.config}')">
                     <div class="overflow-hidden mr-4">
-                        <div class="text-[10px] font-black text-red-500 uppercase mb-1">${item.type}</div>
-                        <div class="text-sm font-bold truncate text-gray-200">${item.name}</div>
+                        <div class="text-[9px] font-black text-red-500 tracking-wider mb-0.5">${item.type}</div>
+                        <div class="text-sm font-bold truncate text-gray-100">${item.name}</div>
                     </div>
-                    <div class="flex-shrink-0 w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center group-active:bg-red-600 transition-colors">
-                        <i class="fa-solid fa-copy text-xs text-gray-500 group-active:text-white"></i>
+                    <div class="flex-shrink-0 w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center border border-white/5 group-active:bg-red-600 transition-colors">
+                        <i class="fa-solid fa-copy text-sm text-gray-500 group-active:text-white"></i>
                     </div>
                 </div>
             `).join('');
@@ -116,27 +139,25 @@
 
         function copy(str) {
             navigator.clipboard.writeText(str);
-            const toast = document.createElement('div');
-            toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 bg-red-600 text-white px-6 py-2 rounded-full text-xs font-bold shadow-xl z-[60]";
-            toast.innerText = "CONFIG COPIED!";
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 1500);
+            const t = document.createElement('div');
+            t.className = "fixed top-10 left-1/2 -translate-x-1/2 bg-red-600 text-white px-8 py-3 rounded-2xl text-[10px] font-black shadow-2xl z-[100] animate-bounce";
+            t.innerText = "COPIED TO CLIPBOARD";
+            document.body.appendChild(t);
+            setTimeout(() => t.remove(), 2000);
         }
 
         function filterType(t) {
-            const filtered = _store.filter(item => item.type.toLowerCase().includes(t.toLowerCase()));
-            render(filtered);
+            const f = _store.filter(i => i.type.toLowerCase().includes(t.toLowerCase()));
+            render(f);
         }
 
         document.getElementById('search').addEventListener('input', (e) => {
-            const val = e.target.value.toLowerCase();
-            const filtered = _store.filter(item => item.name.toLowerCase().includes(val) || item.type.toLowerCase().includes(val));
-            render(filtered);
+            const v = e.target.value.toLowerCase();
+            const f = _store.filter(i => i.name.toLowerCase().includes(v) || i.type.toLowerCase().includes(v));
+            render(f);
         });
 
         document.getElementById('refreshBtn').onclick = fetchData;
-        
-        // Auto load on start
         window.onload = fetchData;
     </script>
 </body>
